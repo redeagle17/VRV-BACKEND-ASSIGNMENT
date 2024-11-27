@@ -1,10 +1,14 @@
-import express, { Router } from "express";
-import { registerUser, loginUser } from "../controllers/auth.controller.js";
-import { registerValidator, loginValidator } from "../helpers/validator.js";
+import { Router } from "express";
+import { verifyJWT } from "../middlewares/auth.middleware.js";
+import { registerUser, loginUser, refreshAccessToken, logoutUser } from "../controllers/auth.controller.js";
 
 const router = Router()
 
-router.post('/register', registerValidator, registerUser);
-router.post('/login', loginValidator, loginUser);
+router.route("/register").post(registerUser)
+router.route("/login").post(loginUser)
+
+//Secured Routes
+router.route("/refresh-token").post(refreshAccessToken)
+router.route("/logout").post(verifyJWT, logoutUser)
 
 export default router;
