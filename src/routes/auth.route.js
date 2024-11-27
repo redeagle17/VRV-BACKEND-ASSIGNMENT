@@ -11,4 +11,4 @@ router.route("/login").post(loginUser)
 router.route("/refresh-token").post(refreshAccessToken)
 router.route("/logout").post(verifyJWT, logoutUser)
 
-export default router;
+export default router
