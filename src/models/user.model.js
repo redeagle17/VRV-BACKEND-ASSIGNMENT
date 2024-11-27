@@ -18,7 +18,7 @@ const userSchema = new mongoose.Schema({
     },
     role: {
         type: Number,
-        default: 0 //0 -> Normal User, 1-> Admin, 2 -> Sub-admin, 3 -> Editor
+        default: 4 //1-> Admin, 2 -> Security-Analyst, 3 -> Responder, 4 -> Auditor, 
     },
     refreshToken: {
         type: String

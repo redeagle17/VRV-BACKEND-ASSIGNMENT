@@ -4,7 +4,7 @@ import { User } from "../models/user.model.js"
 import { ApiResponse } from "../utils/ApiResponse.js";
 import jwt from "jsonwebtoken";
 
-const generateAccessAndRefereshTokens = async(userId) =>{
+const generateAccessAndRefreshTokens = async(userId) =>{
     try {
         const user = await User.findById(userId)
         const accessToken = user.generateAccessToken()
@@ -34,7 +34,7 @@ const registerUser = asyncHandler( async (req, res, next) => {
     const existedUser = await User.findOne({ email })
 
     if (existedUser) {
-        return next(new ApiError(409, "User with email or username already exists"))
+        return next(new ApiError(409, "User with this email already exists"))
     }
    
     const user = await User.create({
@@ -77,7 +77,7 @@ const loginUser = asyncHandler(async (req, res, next) =>{
         return next(new ApiError(401, "Invalid user credentials"))
     }
 
-    const {accessToken, refreshToken} = await generateAccessAndRefereshTokens(user._id)
+    const {accessToken, refreshToken} = await generateAccessAndRefreshTokens(user._id)
 
     const loggedInUser = await User.findById(user._id).select("-password -refreshToken")
 
@@ -156,7 +156,7 @@ const refreshAccessToken = asyncHandler(async (req, res, next) => {
             secure: true
         }
     
-        const {accessToken, newRefreshToken} = await generateAccessAndRefereshTokens(user._id)
+        const {accessToken, newRefreshToken} = await generateAccessAndRefreshTokens(user._id)
     
         return res
         .status(200)
