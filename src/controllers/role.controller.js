@@ -16,13 +16,13 @@ const createUser = asyncHandler( async (req, res, next) => {
     const {name, email, role} = req.body
 
     if (
-        [name, email].some((field) => typeof field !== 'string' || field.trim() === "") ||
-        typeof role !== 'number'
+        !name?.trim() || 
+        !email?.trim() ||
+        !role
     ) {
         return next(new ApiError(400, "All fields are required"));
     }
     
-
     if(req.user.role == ROLES["Auditor"]){
         return next(new ApiError(401, "You are not allowed to access this resource. Please contact the admin!"))
     }
