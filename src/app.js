@@ -18,8 +18,8 @@ app.use(cookieParser())
 import authRoutes from "./routes/auth.route.js";
 import roleRoutes from "./routes/role.route.js";
 
-app.use("/api/v1", authRoutes)
-app.use("/api/v1", roleRoutes)
+app.use("/api/v1/auth", authRoutes)
+app.use("/api/v1/role", roleRoutes)
 
 app.use(errorMiddleware);
 

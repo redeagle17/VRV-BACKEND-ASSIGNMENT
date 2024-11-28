@@ -16,24 +16,26 @@ const createUser = asyncHandler( async (req, res, next) => {
     const {name, email, role} = req.body
 
     if (
-        [name, email, role].some((field) => field?.trim() === "")
+        [name, email].some((field) => typeof field !== 'string' || field.trim() === "") ||
+        typeof role !== 'number'
     ) {
-        return next( new ApiError(400, "All fields are required"))
+        return next(new ApiError(400, "All fields are required"));
     }
+    
 
     if(req.user.role == ROLES["Auditor"]){
-        return next(new ApiError(401, "You are not authorized to perform this action"))
+        return next(new ApiError(401, "You are not allowed to access this resource. Please contact the admin!"))
     }
 
     if(req.user.role == ROLES["Security-Analyst"] && 
         (role == ROLES["Admin"] || role == ROLES["Security-Analyst"])){
-        return next(new ApiError(401, "You are not authorized to perform this action"))
+        return next(new ApiError(401, "You are not allowed to access this resource. Please contact the admin!"))
     }
 
     if(req.user.role == ROLES["Responder"] && 
         (role == ROLES["Admin"] || role == ROLES["Security-Analyst"] || 
             role == ROLES["Responder"])){
-        return next(new ApiError(401, "You are not authorized to perform this action"))
+        return next(new ApiError(401, "You are not allowed to access this resource. Please contact the admin!"))
     }
 
     const existedUser = await User.findOne({ email })
