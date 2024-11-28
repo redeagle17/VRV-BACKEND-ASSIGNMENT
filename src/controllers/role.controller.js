@@ -15,19 +15,25 @@ const createUser = asyncHandler( async (req, res, next) => {
     
     const {name, email, role} = req.body
 
+    if (
+        [name, email, role].some((field) => field?.trim() === "")
+    ) {
+        return next( new ApiError(400, "All fields are required"))
+    }
+
     if(req.user.role == ROLES["Auditor"]){
-        return next(new ApiError(401, "Oops as an Auditor role, you are not authorized to perform this action"))
+        return next(new ApiError(401, "You are not authorized to perform this action"))
     }
 
     if(req.user.role == ROLES["Security-Analyst"] && 
         (role == ROLES["Admin"] || role == ROLES["Security-Analyst"])){
-        return next(new ApiError(401, "Oops as a Sub-Admin role, you are not authorized to perform this action"))
+        return next(new ApiError(401, "You are not authorized to perform this action"))
     }
 
     if(req.user.role == ROLES["Responder"] && 
         (role == ROLES["Admin"] || role == ROLES["Security-Analyst"] || 
             role == ROLES["Responder"])){
-        return next(new ApiError(401, "Oops as a Manager role, you are not authorized to perform this action"))
+        return next(new ApiError(401, "You are not authorized to perform this action"))
     }
 
     const existedUser = await User.findOne({ email })
@@ -55,7 +61,7 @@ const createUser = asyncHandler( async (req, res, next) => {
     }
 
     return res.status(201).json(
-        new ApiResponse(201,  "User registered Successfully")
+        new ApiResponse(201, [], "User registered Successfully")
     )
 })
 
@@ -64,7 +70,7 @@ const getAllVulnerabilities = asyncHandler( async (req, res, next) => {
         return next(new ApiError(401, "You are not allowed to access this resource. Please contact the admin!"))
     }
     return res.status(200).json(
-        new ApiResponse(200, "You are allowed to access this resource.")
+        new ApiResponse(200, [], "You are allowed to access this resource.")
     )
 })
 
@@ -73,7 +79,7 @@ const addNewVulnerabilities = asyncHandler( async (req, res, next) => {
         return next(new ApiError(401, "You are not allowed to access this resource. Please contact the admin!"))
     }
     return res.status(200).json(
-        new ApiResponse(200, "You are allowed to access this resource.")
+        new ApiResponse(200, [], "You are allowed to access this resource.")
     )
 })
 
@@ -82,7 +88,7 @@ const assignVulnerabilities = asyncHandler( async (req, res, next) => {
         return next(new ApiError(401, "You are not allowed to access this resource. Please contact the admin!"))
     }
     return res.status(200).json(
-        new ApiResponse(200, "You are allowed to access this resource.")
+        new ApiResponse(200, [], "You are allowed to access this resource.")
     )
 })
 
@@ -91,7 +97,7 @@ const updateVulnerabilitiesStatus = asyncHandler( async (req, res, next) => {
         return next(new ApiError(401, "You are not allowed to access this resource. Please contact the admin!"))
     }
     return res.status(200).json(
-        new ApiResponse(200, "You are allowed to access this resource.")
+        new ApiResponse(200, [], "You are allowed to access this resource.")
     )
 })
 
@@ -100,7 +106,7 @@ const viewResolvedVulnerabilities = asyncHandler( async (req, res, next) => {
         return next(new ApiError(401, "You are not allowed to access this resource. Please contact the admin!"))
     }
     return res.status(200).json(
-        new ApiResponse(200, "You are allowed to access this resource.")
+        new ApiResponse(200, [], "You are allowed to access this resource.")
     )
 })
 
