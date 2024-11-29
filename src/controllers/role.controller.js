@@ -25,11 +25,11 @@ const createUser = asyncHandler( async (req, res, next) => {
         !email?.trim() ||
         !role
     ) {
-        return next(new ApiError(400, "All fields are required"));
+        return next(new ApiError(400, "All fields are required"))
     }
     
     if (role === ROLES["Admin"]){
-        return next(Api(401, "You cannot create Admin!"))
+        return next(new ApiError(401, "You cannot create Admin!"))
     }
 
     if(req.user.role == ROLES["Auditor"] || req.user.role == ROLES["Security-Analyst"] || req.user.role == ROLES["Responder"]){
