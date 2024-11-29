@@ -1,3 +1,8 @@
+/*
+    This file defines a set of controller functions for managing users and vulnerabilities in a 
+    role-based access control (RBAC) system. 
+    It includes role-specific validation to restrict access to sensitive operations
+*/
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiError } from "../utils/ApiError.js"
 import { User } from "../models/user.model.js"
@@ -23,18 +28,11 @@ const createUser = asyncHandler( async (req, res, next) => {
         return next(new ApiError(400, "All fields are required"));
     }
     
-    if(req.user.role == ROLES["Auditor"]){
-        return next(new ApiError(401, "You are not allowed to access this resource. Please contact the admin!"))
+    if (role === ROLES["Admin"]){
+        return next(Api(401, "You cannot create Admin!"))
     }
 
-    if(req.user.role == ROLES["Security-Analyst"] && 
-        (role == ROLES["Admin"] || role == ROLES["Security-Analyst"])){
-        return next(new ApiError(401, "You are not allowed to access this resource. Please contact the admin!"))
-    }
-
-    if(req.user.role == ROLES["Responder"] && 
-        (role == ROLES["Admin"] || role == ROLES["Security-Analyst"] || 
-            role == ROLES["Responder"])){
+    if(req.user.role == ROLES["Auditor"] || req.user.role == ROLES["Security-Analyst"] || req.user.role == ROLES["Responder"]){
         return next(new ApiError(401, "You are not allowed to access this resource. Please contact the admin!"))
     }
 
@@ -44,7 +42,9 @@ const createUser = asyncHandler( async (req, res, next) => {
         return next(new ApiError(409, "User with this email already exists"))
     }
 
-    // This is the default password when an user is being created with a specific role. A feature can be added to change this default at later stage.
+    /*
+        This is the default password when an user is being created with a specific role. A feature can be added to change this default at later stage.
+    */
     const password = process.env.DEFAULT_PASSWORD
 
     const newUser = await User.create({

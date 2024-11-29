@@ -16,9 +16,17 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    role: {
+    
+    /*
+        Available Roles
+        1 --> Admin
+        2 --> Security-Analyst
+        3 --> Responder
+        4 --> Auditor
+    */
+    role: {                                      
         type: Number,
-        default: 4 //1-> Admin, 2 -> Security-Analyst, 3 -> Responder, 4 -> Auditor, 
+        default: 4 
     },
     refreshToken: {
         type: String
@@ -26,6 +34,9 @@ const userSchema = new mongoose.Schema({
 
 });
 
+/*
+    A middleware function to hash the password before saving the document to the database.
+*/
 userSchema.pre("save", async function (next) {
     if(!this.isModified("password")) return next();
 
@@ -33,10 +44,16 @@ userSchema.pre("save", async function (next) {
     next()
 })
 
+/*
+    To verify if a given password matches the hashed password stored in the database.
+*/
 userSchema.methods.isPasswordCorrect = async function(password){
     return await bcrypt.compare(password, this.password)
 }
 
+/*
+    To generate a JWT access token for user
+*/
 userSchema.methods.generateAccessToken = function(){
     return jwt.sign(
         {
@@ -52,6 +69,10 @@ userSchema.methods.generateAccessToken = function(){
     )
 }
 
+/*
+    To generate a JWT refresh token for the user.
+
+*/
 userSchema.methods.generateRefreshToken = function(){
     return jwt.sign(
         {

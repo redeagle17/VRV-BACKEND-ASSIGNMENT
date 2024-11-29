@@ -1,3 +1,7 @@
+/*
+    This file provides the JWT verification middleware for authenticating requests.
+    Unauthorized or invalid tokens result in an error response.
+*/
 import { ApiError } from "../utils/ApiError.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import jwt from "jsonwebtoken"

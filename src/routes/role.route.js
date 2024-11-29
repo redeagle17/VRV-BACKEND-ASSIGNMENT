@@ -11,6 +11,9 @@ import {
 
 const router = Router()
 
+/*
+    verifyJWT is the middleware used to impart authorization and authentication.
+*/
 router.route("/create-user").post(verifyJWT, createUser)
 router.route("/get-all-vulnerabilities").get(verifyJWT, getAllVulnerabilities)
 router.route("/add-new-vulnerabilities").get(verifyJWT, addNewVulnerabilities)

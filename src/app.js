@@ -5,6 +5,9 @@ import cookieParser from "cookie-parser"
 
 const app = express()
 
+/*
+    Allowed CORS to make frontend access backend system
+*/
 app.use(cors({
     origin: process.env.CORS_ORIGIN,
     credentials: true

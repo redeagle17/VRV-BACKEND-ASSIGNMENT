@@ -4,10 +4,13 @@ import { registerUser, loginUser, refreshAccessToken, logoutUser } from "../cont
 
 const router = Router()
 
+/*
+    register and login doesn't require JWT. JWT will we generated upon successful login.
+*/
 router.route("/register").post(registerUser)
 router.route("/login").post(loginUser)
 
-//Secured Routes
+
 router.route("/refresh-token").post(refreshAccessToken)
 router.route("/logout").post(verifyJWT, logoutUser)
 

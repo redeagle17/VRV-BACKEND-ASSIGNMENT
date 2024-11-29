@@ -1,3 +1,7 @@
+/*
+    This file implements authentication controllers for user management . 
+    It includes functionality for user registration, login, logout, and refreshing access tokens. 
+*/
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiError } from "../utils/ApiError.js"
 import { User } from "../models/user.model.js"
@@ -79,6 +83,7 @@ const loginUser = asyncHandler(async (req, res, next) =>{
 
     const {accessToken, refreshToken} = await generateAccessAndRefreshTokens(user._id)
 
+    // password, refreshToken are removed from the loggedInUser response
     const loggedInUser = await User.findById(user._id).select("-password -refreshToken")
 
     const options = {
