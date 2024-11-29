@@ -6,7 +6,7 @@ A system where users can manage, assign, and resolve vulnerabilities detected in
 
 ## Overview
 
-This is a backend application developed to demonstrate **Role-Based Access Control (RBAC)**. It is designed to impart security for company like VRV Security with four roles: **Admin**, **Security Analyst**, **Responder** and **Auditor**. Each role has different access permissions to the available services.
+This is a backend application developed to demonstrate **Role-Based Access Control (RBAC)**. It is designed to impart security for company like VRV Security with four roles: **Admin**, **Security Analyst**, **Responder** and **Auditor**. Each role has different access permissions to the available services. When users register themselves into the system, the role by default they get is of **Auditor**.
 
 ## List of services
 
