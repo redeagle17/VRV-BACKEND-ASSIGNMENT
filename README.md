@@ -26,6 +26,10 @@ This is a backend application developed to demonstrate **Role-Based Access Contr
   - **Security Analyst**: Security Analyst has access to **Add new vulnerabilities**, **Assign vulnerabilities**, **Update vulnerabilities status** and **View resolved vulnerabilities**.
   - **Responder**: Responder has access to **Update vulnerabilities status** and **View resolved vulnerabilities**.
   - **Auditor**: Auditor has access to only **View resolved vulnerabilities**.
+- **Admin**:
+  - **Admin** is only allowed to create users (**Security Analyst**, **Responder** and **Auditor**).
+  - **Security Analyst** and **Responder** are created by **Admin** only. No direct registration for them.
+  - When a new user registers, the role **Auditor** is assigned.
 
 ## Technologies Used
 
