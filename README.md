@@ -37,3 +37,6 @@ This is a backend application developed to demonstrate **Role-Based Access Contr
 
 ## Backend APIs Postman collection
 You can access the API collection : [**Link**](https://drive.google.com/drive/folders/1bb9ePxwhnBly889Hh5iSAh0y7e88wPIu?usp=sharing)
+
+## Live Demo
+You can access the frontend application : [**Link**](https://vrv-backend-assignment-client-side.vercel.app/)
